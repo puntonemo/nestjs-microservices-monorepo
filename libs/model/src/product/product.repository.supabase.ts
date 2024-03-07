@@ -15,8 +15,10 @@ import { Product } from './product.model';
 import { CreateProductDto } from './product.dto.create';
 import { FindProductDto } from './product.dto.find';
 import { UpdateProductDto } from './product.dto.update';
-import { User } from '@model/user/user.model';
-import { SupabaseService } from '@lib/supabase';
+// import { User } from '@model/user/user.model';
+import { SupabaseService } from '@libs/supabase';
+
+type User = Record<string, any>;
 
 class ProductAdapter {
     @Type(() => String)
