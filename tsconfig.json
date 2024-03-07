@@ -24,6 +24,12 @@
       ],
       "@libs/supabase/*": [
         "libs/supabase/src/*"
+      ],
+      "@model": [
+        "libs/model/src"
+      ],
+      "@model/*": [
+        "libs/model/src/*"
       ]
     }
   }

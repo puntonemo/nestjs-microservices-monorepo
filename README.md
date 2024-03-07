@@ -27,7 +27,7 @@
 ## Installation
 
 ```bash
-$ pnpm install
+$ pnpm i --save class-validator class-transformer @nestjs/swagger swagger-ui-express @nestjs/config @nestjs/serve-static bcryptjs @nestjs/jwt @nestjs/passport passport passport-jwt @nestjs/event-emitter ejs @nestjs/cache-manager cache-manager @nestjs/websockets @nestjs/platform-socket.io @nestjs/microservices @supabase/supabase-js
 ```
 
 ## Running the app

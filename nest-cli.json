@@ -27,6 +27,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/supabase/tsconfig.lib.json"
       }
+    },
+    "service-products": {
+      "type": "application",
+      "root": "apps/service-products",
+      "entryFile": "main",
+      "sourceRoot": "apps/service-products/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service-products/tsconfig.app.json"
+      }
+    },
+    "model": {
+      "type": "library",
+      "root": "libs/model",
+      "entryFile": "index",
+      "sourceRoot": "libs/model/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/model/tsconfig.lib.json"
+      }
     }
   }
 }
