@@ -11,10 +11,13 @@ import {
     plainToClass,
     plainToInstance
 } from 'class-transformer';
-import { Product } from './product.model';
-import { CreateProductDto } from './product.dto.create';
-import { FindProductDto } from './product.dto.find';
-import { UpdateProductDto } from './product.dto.update';
+import {
+    Product,
+    CreateProductDto,
+    FindProductDto,
+    UpdateProductDto
+} from './product.model';
+
 // import { User } from '@model/user/user.model';
 import { SupabaseService } from '@libs/supabase';
 
@@ -151,7 +154,7 @@ export class ProductsRepository {
     private adaptForCreate = (data: any) =>
         plainToClass(CreateProductAdapter, data);
 
-    private getInstance = (value, schemas?: string[] | string) =>
+    private getInstance = (value: any, schemas?: string[] | string) =>
         plainToInstance(
             Product,
             value,

@@ -11,9 +11,9 @@ import {
     plainToClass,
     plainToInstance
 } from 'class-transformer';
-import { Product } from './product.model';
-import { CreateProductDto } from './product.dto.create';
-import { UpdateProductDto } from './product.dto.update';
+
+import { Product, CreateProductDto, UpdateProductDto } from './product.model';
+
 // import { User } from '@model/user/user.model';
 type User = Record<string, any>;
 
