@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ProductsController } from './modules/products/products.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ProductsController } from './products.controller';
+
 @Module({
     imports: [
         ClientsModule.register([
@@ -14,7 +15,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
             }
         ])
     ],
-    controllers: [ProductsController],
-    providers: []
+    controllers: [ProductsController]
 })
-export class GatewayModule {}
+export class ProductsModule {}

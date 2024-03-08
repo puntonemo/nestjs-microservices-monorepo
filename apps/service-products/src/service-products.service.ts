@@ -6,18 +6,18 @@ import {
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class ServiceProductsService {
+export class ProductsService {
     constructor(private readonly productsRepository: ProductsRepository) {}
     create(createProductDto: CreateProductDto) {
         return this.productsRepository.create(createProductDto);
     }
 
     findAll(schema?: string) {
+        console.log('microservice controller findAll()');
         return this.productsRepository.findAll(schema);
     }
 
     findOne(id: number) {
-        console.log('service', id);
         return this.productsRepository.findOne(id);
     }
 

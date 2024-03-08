@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { ServiceProductsService } from './service-products.service';
+import { ProductsService } from './service-products.service';
 import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import {
     CreateProductDto,
@@ -7,36 +7,35 @@ import {
 } from '@model/product/product.model';
 
 @Controller()
-export class ServiceProductsController {
-    constructor(
-        private readonly serviceProductsService: ServiceProductsService
-    ) {}
+export class ProductsController {
+    constructor(private readonly productsService: ProductsService) {}
 
     @EventPattern('user_created')
     async handleUserCreated(data: Record<string, unknown>) {
         console.log('user_created!', data);
     }
-    @MessagePattern('product.create')
+    @MessagePattern('Product.create')
     create(createProductDto: CreateProductDto) {
-        return this.serviceProductsService.create(createProductDto);
+        console.log(`createProductDto`, createProductDto);
+        return this.productsService.create(createProductDto);
     }
 
-    @MessagePattern('product.findAll')
-    findAll(schema?: string) {
-        return this.serviceProductsService.findAll(schema);
+    @MessagePattern('Product.findAll')
+    async findAll(schema?: string) {
+        return this.productsService.findAll(schema);
     }
 
-    @MessagePattern('product.findOne')
-    findOne(id: string) {
-        return this.serviceProductsService.findOne(+id);
+    @MessagePattern('Product.findOne')
+    findOne(id: any) {
+        return this.productsService.findOne(+id);
     }
 
-    @MessagePattern('product.update')
+    @MessagePattern('Product.update')
     update(id: string, updateProductDto: UpdateProductDto) {
-        return this.serviceProductsService.update(+id, updateProductDto);
+        return this.productsService.update(+id, updateProductDto);
     }
-    @MessagePattern('product.remove')
+    @MessagePattern('Product.remove')
     remove(id: string) {
-        return this.serviceProductsService.remove(+id);
+        return this.productsService.remove(+id);
     }
 }

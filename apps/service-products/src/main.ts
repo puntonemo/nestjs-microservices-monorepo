@@ -13,7 +13,7 @@ async function bootstrap() {
         }
     };
     // await app.listen(3001);
-    const logger = new Logger('SERVICE-A');
+    const logger = new Logger('SERVICE-PRODUCTS');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const microservice = app.connectMicroservice<MicroserviceOptions>(

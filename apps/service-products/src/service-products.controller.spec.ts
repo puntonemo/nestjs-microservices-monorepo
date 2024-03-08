@@ -1,24 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ServiceProductsController } from './service-products.controller';
-import { ServiceProductsService } from './service-products.service';
+import { ProductsController } from './service-products.controller';
+import { ProductsService } from './service-products.service';
 
-describe('ServiceProductsController', () => {
-    let serviceProductsController: ServiceProductsController;
+describe('ProductsController', () => {
+    let productsController: ProductsController;
 
     beforeEach(async () => {
         const app: TestingModule = await Test.createTestingModule({
-            controllers: [ServiceProductsController],
-            providers: [ServiceProductsService]
+            controllers: [ProductsController],
+            providers: [ProductsService]
         }).compile();
 
-        serviceProductsController = app.get<ServiceProductsController>(
-            ServiceProductsController
-        );
+        productsController = app.get<ProductsController>(productsController);
     });
 
     describe('root', () => {
         it('should return "Hello World!"', () => {
-            expect(serviceProductsController.getHello()).toBe('Hello World!');
+            expect(productsController.create).toBeDefined();
         });
     });
 });

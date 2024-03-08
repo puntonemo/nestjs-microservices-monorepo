@@ -19,7 +19,6 @@ export {
 export class Product {
     //*******************************************************************/
     //* ATTRIBUTES
-    @Expose({ groups: ['admin'] })
     public readonly id?: number;
     public sku?: string;
     public title?: string;

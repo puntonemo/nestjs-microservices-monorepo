@@ -41,8 +41,9 @@ export class ProductsRepository {
         id: number,
         schemas?: string | string[]
     ): Promise<Product | undefined> {
+        console.log(this.products, id);
         return this.getInstance(
-            this.adapt(this.products.find((item) => item.id === id)),
+            this.adapt(this.products.find((item) => item.id === id.toString())),
             schemas
         );
     }
@@ -75,7 +76,7 @@ export class ProductsRepository {
         schemas: string | string[] = ['admin']
     ) {
         const index = Object.entries(this.products).findIndex(
-            (i: any) => parseInt(i[1].id) === id
+            (i: any) => i[1].id === id.toString()
         );
         if (index >= 0) {
             const updatedProduct = {
