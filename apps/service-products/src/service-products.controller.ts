@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ProductsService } from './service-products.service';
 import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import {
@@ -10,6 +10,10 @@ import {
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
+    @Get()
+    default() {
+        return 'Echo service';
+    }
     @EventPattern('user_created')
     async handleUserCreated(data: Record<string, unknown>) {
         console.log('user_created!', data);
