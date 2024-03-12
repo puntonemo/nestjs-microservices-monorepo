@@ -12,7 +12,7 @@ export class ProductsController {
 
     @Get()
     default() {
-        return 'Echo service';
+        return 'ProductsController echo service';
     }
     @EventPattern('user_created')
     async handleUserCreated(data: Record<string, unknown>) {
