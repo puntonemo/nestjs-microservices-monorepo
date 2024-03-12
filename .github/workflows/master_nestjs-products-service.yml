@@ -30,7 +30,7 @@ jobs:
         run: |
           npm install -g @nestjs/cli
           npm install
-          npm run build
+          nest build service-products
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
