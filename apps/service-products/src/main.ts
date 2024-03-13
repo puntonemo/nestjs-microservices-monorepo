@@ -26,8 +26,8 @@ async function bootstrap() {
         { inheritAppConfig: true }
     );
 
-    await app.startAllMicroservices();
-    logger.log(`Microservice is running on port ${PORT}`);
+    // await app.startAllMicroservices();
+    // logger.log(`Microservice is running on port ${PORT}`);
     await app.listen(PORT);
     logger.log(`Hybrid app is running on port ${PORT}`);
 }
