@@ -11,22 +11,23 @@ async function bootstrap() {
 
     const PORT =
         config.get('SERVICE_PRODUCTS_PORT') || config.get('PORT') || 3001;
-    // const microserviceOptions: MicroserviceOptions = {
-    //     transport: Transport.TCP,
-    //     options: {
-    //         host: '0.0.0.0',
-    //         port: PORT
-    //     }
-    // };
 
-    // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // const microservice = app.connectMicroservice<MicroserviceOptions>(
-    //     microserviceOptions,
-    //     { inheritAppConfig: true }
-    // );
+    const microserviceOptions: MicroserviceOptions = {
+        transport: Transport.TCP,
+        options: {
+            host: '0.0.0.0',
+            port: PORT
+        }
+    };
 
-    // await app.startAllMicroservices();
-    // logger.log(`Microservice is running on port ${PORT}`);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const microservice = app.connectMicroservice<MicroserviceOptions>(
+        microserviceOptions,
+        { inheritAppConfig: true }
+    );
+
+    await app.startAllMicroservices();
+    logger.log(`Microservice is running on port ${PORT}`);
     await app.listen(PORT);
     logger.log(`Hybrid app is running on port ${PORT}`);
 }
