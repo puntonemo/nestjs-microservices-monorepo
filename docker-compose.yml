@@ -1,0 +1,29 @@
+services:
+  gateway:
+    build:
+      dockerfile: apps/gateway/Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+    env_file:
+    - .env
+    # Run a command against the development stage of the image
+    command: npm run start:dev gateway
+    ports:
+      - 3000:3000
+  service-products:
+    build:
+      dockerfile: apps/service-products/Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+    env_file:
+    - .env
+    # Run a command against the development stage of the image
+    command: npm run start:dev service-products
+    ports:
+      - 3001:3001

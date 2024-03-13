@@ -43,6 +43,24 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+## Docker  Build
+
+```bash
+docker build -f apps/gateway/Dockerfile -t gateway:version1 .
+docker build -f apps/service-products/Dockerfile -t service-products:version1 .
+
+docker run -p4000:4000 gateway
+docker run -p4001:4001 ervice-products
+```
+
+## Docker Compose
+
+```bash
+docker-compose up -d [--build]
+
+docker-compose down
+```
+
 ## Test
 
 ```bash
