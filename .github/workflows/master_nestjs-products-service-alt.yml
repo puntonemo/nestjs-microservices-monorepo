@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Deploy App Service - nestjs-products-service
+name: Deploy App Service (alt) - nestjs-products-service
 
 on:
   push:
@@ -32,11 +32,28 @@ jobs:
           npm install
           nest build service-products
 
+      - name: Zip all files for upload between jobs
+        run: zip --symlinks -r nest.zip ./*
+  
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: nest.zip
+
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nestjs-products-service'
           slot-name: 'Production'
-          package: .
+          package: nest.zip
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EB4501FD5CEA4D08A5F8AD1B9A42D224 }}
+
+      - name: Delete zip file
+        run: rm nest.zip

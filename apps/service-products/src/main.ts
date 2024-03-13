@@ -6,29 +6,27 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
     const app = await NestFactory.create(ServiceProductsModule);
-    const configService = app.get<ConfigService>(ConfigService);
-    const PORT =
-        configService.get('SERVICE_PRODUCTS_PORT') ||
-        configService.get('PORT') ||
-        3001;
-    const serviceConfig: MicroserviceOptions = {
-        transport: Transport.TCP,
-        options: {
-            host: '0.0.0.0',
-            port: PORT
-        }
-    };
-    // await app.listen(3001);
+    const config = app.get<ConfigService>(ConfigService);
     const logger = new Logger('SERVICE-PRODUCTS');
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const microservice = app.connectMicroservice<MicroserviceOptions>(
-        serviceConfig,
-        { inheritAppConfig: true }
-    );
+    const PORT =
+        config.get('SERVICE_PRODUCTS_PORT') || config.get('PORT') || 3001;
+    // const microserviceOptions: MicroserviceOptions = {
+    //     transport: Transport.TCP,
+    //     options: {
+    //         host: '0.0.0.0',
+    //         port: PORT
+    //     }
+    // };
 
-    await app.startAllMicroservices();
-    logger.log(`Microservice is running on port ${PORT}`);
+    // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const microservice = app.connectMicroservice<MicroserviceOptions>(
+    //     microserviceOptions,
+    //     { inheritAppConfig: true }
+    // );
+
+    // await app.startAllMicroservices();
+    // logger.log(`Microservice is running on port ${PORT}`);
     await app.listen(PORT);
     logger.log(`Hybrid app is running on port ${PORT}`);
 }
