@@ -1,5 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import {
+    ClientProxyFactory,
+    MicroserviceOptions,
+    Transport
+} from '@nestjs/microservices';
 import { ProductsController } from './products.controller';
 import { ConfigService } from '@nestjs/config';
 
@@ -10,36 +14,43 @@ import { ConfigService } from '@nestjs/config';
         {
             provide: 'SERVICE_PRODUCTS',
             useFactory: (config: ConfigService) => {
-                const HOST = config.get('SERVICE_PRODUCTS_HOST') || 'localhost';
-                const HOST_TLS = config.get('SERVICE_PRODUCTS_HOST_TLS');
-                const PORT =
-                    config.get('SERVICE_PRODUCTS_PORT') ||
+                const REDIS_HOST = config.get('SERVICE_PRODUCTS_REDIS_HOST');
+                const REDIS_USE_TLS =
+                    config.get('SERVICE_PRODUCTS_REDIS_USE_TLS') === 'true' ||
+                    false;
+                const REDIS_PORT =
+                    config.get('SERVICE_PRODUCTS_REDIS_PORT') ||
                     config.get('PORT') ||
                     3001;
-                const PASSWORD = config.get('SERVICE_PRODUCTS_PASSWORD');
-                return ClientProxyFactory.create(
-                    HOST_TLS
-                        ? {
-                              transport: Transport.REDIS,
-                              options: {
-                                  tls: {
-                                      host: HOST_TLS || undefined,
-                                      port: HOST_TLS ? PORT : undefined
-                                  },
-                                  // username: '',
-                                  password: PASSWORD
-                              }
-                          }
-                        : {
-                              transport: Transport.REDIS,
-                              options: {
-                                  host: HOST,
-                                  port: PORT,
-                                  // username: '',
-                                  password: PASSWORD
-                              }
-                          }
+                const REDIS_PASSWORD = config.get(
+                    'SERVICE_PRODUCTS_REDIS_PASSWORD'
                 );
+                if (REDIS_HOST) {
+                    const microserviceOptions: MicroserviceOptions =
+                        REDIS_USE_TLS
+                            ? {
+                                  transport: Transport.REDIS,
+                                  options: {
+                                      tls: {
+                                          host: REDIS_HOST,
+                                          port: REDIS_PORT
+                                      },
+                                      // username: '',
+                                      password: REDIS_PASSWORD
+                                  }
+                              }
+                            : {
+                                  transport: Transport.REDIS,
+                                  options: {
+                                      host: REDIS_HOST,
+                                      port: REDIS_PORT,
+                                      // username: '',
+                                      password: REDIS_PASSWORD
+                                  }
+                              };
+                    console.log(microserviceOptions);
+                    return ClientProxyFactory.create(microserviceOptions);
+                }
             },
             inject: [ConfigService]
         }

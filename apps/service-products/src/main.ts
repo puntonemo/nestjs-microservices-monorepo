@@ -9,41 +9,52 @@ async function bootstrap() {
     const config = app.get<ConfigService>(ConfigService);
     const logger = new Logger('SERVICE-PRODUCTS');
 
-    const HOST = config.get('SERVICE_PRODUCTS_HOST') || 'localhost';
-    const HOST_TLS = config.get('SERVICE_PRODUCTS_HOST_TLS');
-    const PORT =
-        config.get('SERVICE_PRODUCTS_PORT') || config.get('PORT') || 3001;
-    const PASSWORD = config.get('SERVICE_PRODUCTS_PASSWORD');
+    const HYBRID_PORT =
+        config.get('SERVICE_PRODUCTS_HYBRID_PORT') ||
+        config.get('PORT') ||
+        undefined;
+    const REDIS_HOST = config.get('SERVICE_PRODUCTS_REDIS_HOST');
+    const REDIS_USE_TLS =
+        config.get('SERVICE_PRODUCTS_REDIS_USE_TLS') === 'true' || false;
+    const REDIS_PORT =
+        config.get('SERVICE_PRODUCTS_REDIS_PORT') || config.get('PORT') || 3001;
+    const REDIS_PASSWORD = config.get('SERVICE_PRODUCTS_REDIS_PASSWORD');
 
-    const microserviceOptions: MicroserviceOptions = HOST_TLS
-        ? {
-              transport: Transport.REDIS,
-              options: {
-                  tls: {
-                      host: HOST_TLS,
-                      port: PORT
-                  },
-                  // username: '',
-                  password: PASSWORD
+    if (REDIS_HOST) {
+        const microserviceOptions: MicroserviceOptions = REDIS_USE_TLS
+            ? {
+                  transport: Transport.REDIS,
+                  options: {
+                      tls: {
+                          host: REDIS_HOST,
+                          port: REDIS_PORT
+                      },
+                      // username: '',
+                      password: REDIS_PASSWORD
+                  }
               }
-          }
-        : {
-              transport: Transport.REDIS,
-              options: {
-                  host: HOST,
-                  port: PORT,
-                  // username: '',
-                  password: PASSWORD
-              }
-          };
-    console.log(microserviceOptions);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const microservice = app.connectMicroservice<MicroserviceOptions>(
-        microserviceOptions,
-        { inheritAppConfig: true }
-    );
+            : {
+                  transport: Transport.REDIS,
+                  options: {
+                      host: REDIS_HOST,
+                      port: REDIS_PORT,
+                      // username: '',
+                      password: REDIS_PASSWORD
+                  }
+              };
+        console.log(microserviceOptions);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const microservice = app.connectMicroservice<MicroserviceOptions>(
+            microserviceOptions,
+            { inheritAppConfig: true }
+        );
+    }
     await app.startAllMicroservices();
-    logger.log(`Microservice is running on port ${PORT}`);
+    logger.log(`Microservice is running`);
+    if (HYBRID_PORT) {
+        await app.listen(HYBRID_PORT);
+        logger.log(`Hybrid app is running on port ${await app.getUrl()}`);
+    }
 }
 bootstrap();
