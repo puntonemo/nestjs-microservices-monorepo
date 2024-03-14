@@ -41,6 +41,12 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
+
+# docker mode
+$ pnpm run docker:start
+
+# finish docker mode
+$ pnpm run docker:down
 ```
 
 ## Docker  Build

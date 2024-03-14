@@ -9,13 +9,14 @@ async function bootstrap() {
     const config = app.get<ConfigService>(ConfigService);
     const logger = new Logger('SERVICE-PRODUCTS');
 
+    const HOST = config.get('SERVICE_PRODUCTS_HOST') || 'localhost';
     const PORT =
         config.get('SERVICE_PRODUCTS_PORT') || config.get('PORT') || 3001;
 
     const microserviceOptions: MicroserviceOptions = {
-        transport: Transport.TCP,
+        transport: Transport.REDIS,
         options: {
-            host: '0.0.0.0',
+            host: HOST,
             port: PORT
         }
     };
@@ -28,7 +29,5 @@ async function bootstrap() {
 
     await app.startAllMicroservices();
     logger.log(`Microservice is running on port ${PORT}`);
-    // await app.listen(PORT);
-    // logger.log(`Hybrid app is running on port ${PORT}`);
 }
 bootstrap();

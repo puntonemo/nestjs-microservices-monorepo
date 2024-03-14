@@ -14,7 +14,7 @@ import { ConfigService } from '@nestjs/config';
                     configService.get('SERVICE_PRODUCTS_HOST') || '127.0.0.1';
                 const PORT = configService.get('SERVICE_PRODUCTS_PORT') || 3001;
                 return ClientProxyFactory.create({
-                    transport: Transport.TCP,
+                    transport: Transport.REDIS,
                     options: {
                         host: HOST,
                         port: PORT
